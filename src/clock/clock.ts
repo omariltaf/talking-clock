@@ -1,13 +1,23 @@
 import converter from "number-to-words";
 
 export class TalkingClock {
-	getHumanTime(): string {
+	getHumanTime(time?: string): string {
 		try {
-			const { hour, minute } = this.getCurrentHourAndMinute();
+			const { hour, minute } = time
+				? this.getHourAndMinute(time)
+				: this.getCurrentHourAndMinute();
 			return this.determineHumanTime(hour, minute);
 		} catch (error: any) {
 			return `Error: ${error.message}`;
 		}
+	}
+
+	private getHourAndMinute(time: string): { hour: number; minute: number } {
+		const hourAndMinute = time.split(":");
+		return {
+			hour: Number(hourAndMinute[0]),
+			minute: Number(hourAndMinute[1]),
+		};
 	}
 
 	private getCurrentHourAndMinute(): { hour: number; minute: number } {
