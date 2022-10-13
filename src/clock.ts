@@ -63,10 +63,6 @@ export class TalkingClock {
 			)} to ${this.numberToWord(convertedNextHour)}`;
 		}
 
-		if (!humanTime) {
-			throw new Error("Human Time cannot be determined");
-		}
-
 		return this.capitaliseFirstLetter(humanTime);
 	}
 
