@@ -1,5 +1,5 @@
 import express from "express";
-import { TalkingClock } from "../clock/clock";
+import { TalkingClock } from "./clock";
 
 const app = express();
 const port = 3000;

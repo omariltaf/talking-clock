@@ -1,4 +1,4 @@
-import { TalkingClock } from "../clock/clock";
+import { TalkingClock } from "./clock";
 
 try {
 	const args = process.argv.slice(2);
