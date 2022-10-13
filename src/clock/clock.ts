@@ -2,21 +2,22 @@ import converter from "number-to-words";
 
 export class TalkingClock {
 	getHumanTime(time?: string): string {
-		try {
-			const { hour, minute } = time
-				? this.getHourAndMinuteFromProvidedTime(time)
-				: this.getHourAndMinuteFromCurrentTime();
-			return this.determineHumanTime(hour, minute);
-		} catch (error: any) {
-			return `Error: ${error.message}`;
-		}
+		const { hour, minute } = time
+			? this.getHourAndMinuteFromProvidedTime(time)
+			: this.getHourAndMinuteFromCurrentTime();
+		return this.determineHumanTime(hour, minute);
 	}
 
 	private checkValidHourAndMinute(hour: number, minute: number) {
-		if (!hour || hour < 0 || hour > 23) {
+		const invalidHour = hour === undefined || hour < 0 || hour > 23;
+		const invalidMinute = minute === undefined || minute < 0 || minute > 59;
+		const invalidTime = invalidHour && invalidMinute;
+
+		if (invalidTime) {
+			throw new Error("Invalid time provided");
+		} else if (invalidHour) {
 			throw new Error("Invalid hour provided");
-		}
-		if (!minute || minute < 0 || minute > 59) {
+		} else if (invalidMinute) {
 			throw new Error("Invalid minute provided");
 		}
 	}
