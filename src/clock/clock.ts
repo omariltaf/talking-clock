@@ -4,23 +4,36 @@ export class TalkingClock {
 	getHumanTime(time?: string): string {
 		try {
 			const { hour, minute } = time
-				? this.getHourAndMinute(time)
-				: this.getCurrentHourAndMinute();
+				? this.getHourAndMinuteFromProvidedTime(time)
+				: this.getHourAndMinuteFromCurrentTime();
 			return this.determineHumanTime(hour, minute);
 		} catch (error: any) {
 			return `Error: ${error.message}`;
 		}
 	}
 
-	private getHourAndMinute(time: string): { hour: number; minute: number } {
-		const hourAndMinute = time.split(":");
+	private checkValidHourAndMinute(hour: number, minute: number) {
+		if (!hour || hour < 0 || hour > 23) {
+			throw new Error("Invalid hour provided");
+		}
+		if (!minute || minute < 0 || minute > 59) {
+			throw new Error("Invalid minute provided");
+		}
+	}
+
+	private getHourAndMinuteFromProvidedTime(time: string): {
+		hour: number;
+		minute: number;
+	} {
+		const [hour, minute] = time.split(":").map((str) => Number(str));
+		this.checkValidHourAndMinute(hour, minute);
 		return {
-			hour: Number(hourAndMinute[0]),
-			minute: Number(hourAndMinute[1]),
+			hour,
+			minute,
 		};
 	}
 
-	private getCurrentHourAndMinute(): { hour: number; minute: number } {
+	private getHourAndMinuteFromCurrentTime(): { hour: number; minute: number } {
 		const currentDate = new Date();
 		return {
 			hour: currentDate.getHours(),
