@@ -9,8 +9,10 @@ export class TalkingClock {
 	}
 
 	private checkValidHourAndMinute(hour: number, minute: number) {
-		const invalidHour = hour === undefined || hour < 0 || hour > 23;
-		const invalidMinute = minute === undefined || minute < 0 || minute > 59;
+		const invalidHour =
+			hour === undefined || Number.isNaN(hour) || hour < 0 || hour > 23;
+		const invalidMinute =
+			minute === undefined || Number.isNaN(minute) || minute < 0 || minute > 59;
 		const invalidTime = invalidHour && invalidMinute;
 
 		if (invalidTime) {
